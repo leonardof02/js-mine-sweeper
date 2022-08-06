@@ -1,61 +1,33 @@
-export class Block {
-    constructor(){
-        this.state = false;
-        this.label = 0;
-        this.flag = false;
-    }
-}
+import Grid from "./grid-system.js";
+import { Block, Mine } from "./block-objects.js";
 
-export class Mine {
-    constructor() {
-        this.state = false;
-        this.label = 'm';
-        this.flag = false;
-    }
-}
-
-export class Grid {
+export default class MineGrid extends Grid {
     constructor( row, col ) {
-        this.grid;
-        this.row = row;
-        this.col = col;
-        this.buildEmptyGrid();
-    }
-
-    // Build a void matrix for introducing data
-    buildEmptyGrid() {
-        // NOTE: The matrix must have a row and col more than contains for correct processing
-        // the game logic and for preventing errors
-        this.grid = new Array();
-        for( let i = 0; i < this.row + 2; i++ ) {
-            const row = [];
-            for( let j = 0; j < this.col + 2; j++ ) {
-                row.push( new Block() );
-            }
-            this.grid[i] = [ ...row ];
-        }
-    }
-    // Clear the grid and set to void values
-    clearGrid() {
-        this.grid.forEach( value => value.fill( new Block() ) );
-    }
-
-    // Show grid in a table
-    showGameState() {
-        const gameState = this.grid.slice(1, this.row + 1).map( value => value.slice(1, this.col + 1));
-        console.table( gameState );
-    }
-
-    showOriginalGrid() {
-        console.table( this.grid );
-    }
-}
-
-export class MineGrid extends Grid {
-    constructor( row, col ) {
+        // Init the grid
         super( row, col );
+
+        // Max num of mines and flags
         this.mines;
-        this.countR = 0;
+        this.flags;
+
+        // Memoization for recursion unhiding
+        this.memo;
+        this.clearMemo();
+
+        // Check if the current block went activated by a click
+        this.firstMove = true;
+    }
+
+    // Matrix for memoization
+    clearMemo() {
+        this.memo = new Array();
+        for (let i = 0; i < this.row + 2; i++) {
+            let row = [];
+            for( let j = 0; j < this.col + 2; j++ ){
+                row.push(false);
+            }
+            this.memo.push(row);
+        }
     }
 
     // Count all the mines in the grid
@@ -70,8 +42,7 @@ export class MineGrid extends Grid {
             }
         }
 
-        this.mines = mines;
-        return this.mines;
+        return mines;
     }
 
     // Set randoms mines at grid
@@ -81,9 +52,12 @@ export class MineGrid extends Grid {
             let y = Math.floor( Math.random() * this.row + 1);
             this.grid[ x ][ y ] = new Mine();
         }
+
+        this.mines = numMines;
+        this.flags = numMines;
     }
 
-    // Numerate the grid around a single mine
+    // Precalculate the number of adyacent mines in a block
     numerateMine( row, col ) {
         for( let i = row - 1; i <= row + 1; i++ ) {
             for( let j = col - 1; j <= col + 1; j++ ) {
@@ -94,7 +68,7 @@ export class MineGrid extends Grid {
         }
     }
 
-    // Type a number according to the number of mines around for all the mines
+    // Precalculate the mines matrix
     numerateGrid() {
         for( let i = 1; i <= this.row; i++ ) {
             for( let j = 1; j <= this.col; j++ ) {
@@ -121,39 +95,59 @@ export class MineGrid extends Grid {
     }
 
     unhideBlock(row, col) {
-        if ( this.grid[row][col].label === 0 ) 
-            return this.unhideSection(row, col)
-        else
-            return this.unhideThis(row, col);
-    }
 
-    unhideThis( row, col ) {
-        if( this.grid[row][col] instanceof Mine ) {
-            this.grid[row][col].state = true;
-            return false;
+        if( this.memo[row][col] )
+            return;
+        
+        // If is a corner
+        if( row < 1 || row > this.row || col < 1 || col > this.col || this.grid[row][col] instanceof Mine ||
+            this.grid[row][col].state ) {
+                this.memo[row][col] = true;
+                return true;
         }
 
-        if( this.grid[row][col].label !== 'm' && this.grid[row][col].label !== 0 ) {
+        else if ( this.grid[row][col].label !== 0 && this.grid[row][col] instanceof Block  ) {
             this.grid[row][col].state = true;
-            return true;
+            this.memo[row][col] = true;
+            return;
         }
-    }
+        
+        this.grid[row][col].state = true;
 
-    unhideSection( row, col) {
-            
-            for( let i = row - 1; i <= row + 1; i++ ) {
-                for( let j = col - 1; j <= col + 1; j++ ) {
-                    if( this.grid[i][j].flag ) continue;
-                    this.grid[i][j].state = true;
-                    // FIXME: Implement Recursion
-                    // this.unhideSection(i, j)
-                }
+        this.unhideBlock( row - 1, col );       // UP
+        this.unhideBlock( row + 1, col );       // DOWN
+        this.unhideBlock( row, col + 1 );       // RIGHT
+        this.unhideBlock( row, row - 1 );       // LEFT
+        this.unhideBlock( row + 1, col + 1 );
+        this.unhideBlock( row + 1, col - 1 );
+        this.unhideBlock( row - 1, col + 1 );
+        this.unhideBlock( row - 1, col - 1 );
+    }   
+
+    checkFlagsAround( row, col ) {
+        for( let i = row - 1; i <= row + 1; i++  ) {
+            for( let j = col - 1 ; j <= col + 1; j++ ) {
+                if( this.grid[i][j].flag )
+                    return true;
             }
-
-            return true;
+        }
+        return false;
     }
 
-    renderGame() {
+    unhideSection(row, col) {
+        if( this.grid[row][col].label === 0 ) return;
+        if( ! this.checkFlagsAround( row, col ) ) return;
+
+        for( let i = row - 1; i <= row + 1; i++  ) {
+            for( let j = col - 1 ; j <= col + 1; j++ ) {
+                if( this.grid[i][j].flag ) continue;
+                this.grid[i][j].state = true;
+            }
+        }
+    }
+
+    // Print the game for console
+    consoleRenderGame() {
         const gameState = this.grid.slice(1, this.row + 1).map( value => value.slice(1, this.col + 1));
         const shadowGrid = new Array();
         
@@ -187,6 +181,7 @@ export class MineGrid extends Grid {
             return false;
     }
 
+    // Check if the player loose
     checkLose() {
         for( let i = 1; i <= this.row; i++ ) {
             for( let j = 1; j <= this.col + 1; j++ ) {

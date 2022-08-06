@@ -5,20 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MineSweeper</title>
+
+    <!-- CSS Styles -->
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" >
-    <link rel="stylesheet" href="src/styles.css">
+    <!-- <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" > -->
+    <link rel="stylesheet" href="src/css/styles.css">
 </head>
 <body>
-
+    <header>
+        <h1>
+            <span>mine</span><span>SWEEPER</span>
+        </h1>
+    </header>
     <main class="main">
         <div id="main-container" class="">
             <table id="main-grid" class="d-table">
 
             </table>
         </div>
+
     </main>
-    <script type="module" src="src/ui.js" defer></script>
+
+    <!-- JS Scripts -->
+    <script type="module" src="src/js/app.js" defer></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
+    <audio src="src/audio/explosion.mp3" id="explosion-sfx"></audio>
 </body>
 </html>
