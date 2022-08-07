@@ -1,0 +1,42 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+
+    background-color: #271a2a;
+
+    font-size: 30pt;
+}
+
+.navbar span {
+    align-items: baseline;
+    margin: 8px;
+}
+
+.app-name {
+    display: flex;
+    max-width: fit-content;
+    align-items: center;
+    margin: 0 0 0 15px;
+}
+
+.app-name span {
+    margin: 0;
+}
+
+.game-data {
+    display: flex;
+    margin-left: auto;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+
+#menu-icon {
+    margin: 10px;
+    transition: transform .5s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+}
+
+.mines-info {
+    display: flex;
+}

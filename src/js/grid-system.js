@@ -19,7 +19,7 @@ export default class Grid {
             for( let j = 0; j < this.col + 2; j++ ) {
                 row.push( new Block() );
             }
-            this.grid[i] = [ ...row ];
+            this.grid.push(row);
         }
     }
 

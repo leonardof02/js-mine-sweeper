@@ -1,6 +1,12 @@
 * {
     font-family: 'Ubuntu Mono';
     font-weight: bolder;
+    color: white;
+    margin: 0;
+}
+
+html {
+    overflow-x: hidden;
 }
 
 #main-container {
@@ -24,6 +30,8 @@ td {
     align-items: center;
     width: 55px;
     height: 50px;
+
+    transition: background-color .3s;
 }
 
 td img {
@@ -42,7 +50,7 @@ tr {
     display: flex;
 }
 
-button {
+td button {
     position: relative;
     opacity: 100;
     display: flex;
@@ -67,7 +75,7 @@ button {
     opacity: 0;
 }
 
-button:hover {
+td button:hover {
     background-color: #444455;
     margin-top: -10px;
 }
@@ -86,11 +94,32 @@ button i::before {
     display: none;
 }
 
-header {
-    background-color: #0c090d;
+.alert {
+    border-radius: 10px;
+    top: auto;
+    bottom: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
 }
 
-header h1 {
-    margin: 0;
+.win-alert {
+    background-color: #26ff05;
+}
+
+.loose-alert {
+    background-color: #8f1010;
+}
+
+.alert p {
+    font-size: 40pt;
+    color: #1d151f;
+    text-align: center;
     width: 100%;
+}
+
+.loose-alert p {
+    color: #fff;
 }

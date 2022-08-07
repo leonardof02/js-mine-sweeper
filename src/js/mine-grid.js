@@ -13,9 +13,6 @@ export default class MineGrid extends Grid {
         // Memoization for recursion unhiding
         this.memo;
         this.clearMemo();
-
-        // Check if the current block went activated by a click
-        this.firstMove = true;
     }
 
     // Matrix for memoization
@@ -101,7 +98,7 @@ export default class MineGrid extends Grid {
         
         // If is a corner
         if( row < 1 || row > this.row || col < 1 || col > this.col || this.grid[row][col] instanceof Mine ||
-            this.grid[row][col].state ) {
+            this.grid[row][col].state || this.grid[row][col].flag ) {
                 this.memo[row][col] = true;
                 return true;
         }

@@ -9,14 +9,51 @@
     <!-- CSS Styles -->
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
     <!-- <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" > -->
+    <link rel="stylesheet" href="src/css/navbar.css">
     <link rel="stylesheet" href="src/css/styles.css">
+    <link rel="stylesheet" href="src/css/settings-menu.css">
 </head>
 <body>
-    <header>
-        <h1>
-            <span>mine</span><span>SWEEPER</span>
-        </h1>
-    </header>
+    <nav class="navbar">
+        <div class="app-name">
+            <span id="name-1">mine</span><span id="name-2">SWEEPER.dev</span>
+        </div>
+        <div class="game-data">
+            <div class="mines-info">
+                <img src="/src/icons/mine.svg" alt="">
+                <span id="num-mines">10</span>
+            </div>
+            <div class="flag-info">
+                <!-- <img src="/src/icons/" alt=""> -->
+                <span class="fa fa-flag"></span>
+                <span id="num-flags">10</span>
+            </div>
+            <div class="time-info">
+                <!-- <img src="" alt=""> -->
+                <span id="time"></span>
+            </div>
+        </div>
+        <div id="app-menu">
+            <i class="fa fa-bars" id="menu-icon"></i>
+        </div>
+    </nav>
+    <div class="settings-menu" id="settings-menu">
+        <h2>Game Settings</h2>
+        <div class="grid-config">
+            <input type="number" id="grid-rows" min="2" max="20" value="10">
+            <span>rows</span>
+            
+            <input type="number" id="grid-columns" min="2" max="20" value="10">
+            <span>columns</span>
+        </div>
+        <div class="mines-config">
+            <input type="number" id="mines-config" min="2" value="20">
+            <span>mines</span>
+        </div>
+        <button id="new-game">
+            <i class="fa fa-play" style="color:black"></i> New Game!
+        </button>
+    </div>
     <main class="main">
         <div id="main-container" class="">
             <table id="main-grid" class="d-table">
