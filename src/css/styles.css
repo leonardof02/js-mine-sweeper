@@ -5,16 +5,31 @@
     margin: 0;
 }
 
+img {
+    pointer-events: none;
+}
+
+button i {
+    pointer-events: none;
+}
+
 html {
     overflow-x: hidden;
 }
 
 #main-container {
-    margin-top: 20px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 90vh;
 } /* TODO: Terminar los estilos del CSS */
+
+#main-grid {
+    transition: all 2s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    margin-top: auto;
+    margin-bottom: auto;
+}
 
 body {
     background-color: #1d151f;
@@ -95,14 +110,21 @@ button i::before {
 }
 
 .alert {
+
+    position: absolute;
+
+
+    margin-top: 1rem;
     border-radius: 10px;
     top: auto;
     bottom: auto;
-
+   
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
-    align-items: baseline;
+    align-items: center;
+
+    height: 3rem;
 }
 
 .win-alert {
@@ -113,13 +135,25 @@ button i::before {
     background-color: #8f1010;
 }
 
-.alert p {
-    font-size: 40pt;
+.alert span {
+    font-size: 30pt;
     color: #1d151f;
-    text-align: center;
-    width: 100%;
 }
 
 .loose-alert p {
     color: #fff;
+}
+
+.max-screen-opacity {
+    position: absolute;
+    top: 0;
+    z-index: 500;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0;
+}
+
+.d-none {
+    display: none;
 }

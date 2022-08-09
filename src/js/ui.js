@@ -8,10 +8,10 @@ export default class UI {
 
     // Build the Grid at UI with mines inside and labels with styles
     static buildGrid( _mineGrid = new MineGrid() ) {
+        
         const mainGrid = document.getElementById('main-grid');
         document.getElementById('num-flags').innerText = _mineGrid.mines;
         document.getElementById('num-mines').innerText = _mineGrid.mines;
-
 
         for( let i = 1; i <= _mineGrid.row; i++ ) {
             let row = document.createElement( 'tr' );
@@ -145,16 +145,22 @@ export default class UI {
 
     static showMessageYouLose( _mineGrid = new MineGrid() ) {
 
+        this.blockScreen();
+
         this.unhideMinesAnimation( _mineGrid );
 
         const mainGrid = document.getElementById('main-grid');
         const youLose = document.createElement('div');
         youLose.setAttribute('class', 'alert loose-alert');
-        youLose.innerHTML = "<p>!!! HAS PERDIDO</p>";
+        youLose.innerHTML = "<span>!!! HAS PERDIDO</span>";
         mainGrid.appendChild( youLose );
+
+        this.showAppMenu();
     }
 
     static showMessageYouWin( _mineGrid = new MineGrid() ) {
+
+        this.blockScreen();
 
         this.unhideAllBlocks( _mineGrid );
         this.WinAnimation( _mineGrid );
@@ -162,8 +168,10 @@ export default class UI {
         const mainGrid = document.getElementById('main-grid');
         const youWin = document.createElement('div');
         youWin.setAttribute('class', 'alert win-alert');
-        youWin.innerHTML = "<p>HAS GANADO!!!</p>";
+        youWin.innerHTML = "<span>HAS GANADO!!!</span>";
         mainGrid.appendChild( youWin );
+
+        this.showAppMenu();
     }
 
     static showAppMenu() {
@@ -190,7 +198,7 @@ export default class UI {
         }
     }
 
-    static resetGame() {
-        document.getElementById('main-grid').innerHTML = "";
+    static blockScreen() {
+        document.getElementById( "black-screen" ).classList.remove('d-none');
     }
 }

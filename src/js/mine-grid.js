@@ -138,6 +138,7 @@ export default class MineGrid extends Grid {
         for( let i = row - 1; i <= row + 1; i++  ) {
             for( let j = col - 1 ; j <= col + 1; j++ ) {
                 if( this.grid[i][j].flag ) continue;
+                if( this.grid[i][j].label === 0 ) this.unhideBlock( i, j );
                 this.grid[i][j].state = true;
             }
         }
@@ -165,17 +166,21 @@ export default class MineGrid extends Grid {
 
     checkWin() {
         let count = 0;
+
+        console.log(count);
+        console.log( this.mines );
+
         for( let i = 1; i <= this.row; i++ ) {
-            for( let j = 1; j <= this.col + 1; j++ ) {
-                if( this.grid[i][j].flag && this.grid[i][j] instanceof Mine )
+            for( let j = 1; j <= this.col; j++ ) {
+                if( ! this.grid[i][j].state )
                     count++;
             }
         }
 
         if( count === this.mines )
             return true;
-        else
-            return false;
+
+        return false;
     }
 
     // Check if the player loose

@@ -1,7 +1,7 @@
 .navbar {
     display: flex;
     justify-content: space-between;
-
+    height: 10vh;
     background-color: #271a2a;
 
     font-size: 30pt;
@@ -31,6 +31,11 @@
     width: 100%;
 }
 
+.mines-info {
+    display: flex;
+    
+}
+
 #menu-icon {
     margin: 10px;
     transition: transform .5s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -39,4 +44,31 @@
 
 .mines-info {
     display: flex;
+}
+
+.app-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width: 725px) {
+    
+    .navbar {
+        flex-direction: column;
+    }
+
+    .app-name {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .game-data {
+        justify-content: center;
+    }
+
+    .game-data div {
+        margin: 0 5px 0 5px;
+    }
 }
