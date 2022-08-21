@@ -1,5 +1,7 @@
 import { Block, Mine } from "./block-objects.js";
 import MineGrid from "./mine-grid.js";
+import { Clock } from "./clock.js";
+
 export default class UI {
     // FIXME: Arreglar la vista del CSS
 
@@ -52,33 +54,28 @@ export default class UI {
                 if( _mineGrid.grid[i][j].state ) {
                     document.getElementById( `b-${ i - 1 }-${ j - 1 }` ).classList.add("button-hide");
                     document.getElementById( `b-${ i - 1 }-${ j - 1 }` ).style.display = "none";
-    
-                    //if(  )
-
+                    
                     // Style the Grid according to Number of Mines
                     if( _mineGrid.grid[i][j] instanceof Block ) {
                         const label = document.getElementById( `s-${ i - 1 }-${ j - 1 }` );
-                        if( label.innerText === '1' || label.innerText === '5') {
-                            label.parentNode.style.backgroundColor = '#240019';
-                            label.parentNode.style.color = '#ea00f4';
-                        }
-                        if( label.innerText === '2' || label.innerText === '6') {
-                            label.parentNode.style.backgroundColor = '#385942';
-                            label.parentNode.style.color = '#45ff3f';
-                        }
-                        if( label.innerText === '3' || label.innerText === '7') {
-                            label.parentNode.style.backgroundColor = '#0045df';
-                            label.parentNode.style.color = '#00ffff';
-                        }
-                        if( label.innerText === '4' || label.innerText === '8' ) {
-                            label.parentNode.style.backgroundColor = '#b48400';
-                            label.parentNode.style.color = '#ecff00';
-                        }
+                        // Set color to each type of label
+                        if( label.innerText === '1' || label.innerText === '5')
+                            label.parentNode.setAttribute( 'class', 'label-1-5' );
+
+                        if( label.innerText === '2' || label.innerText === '6')
+                            label.parentNode.setAttribute( 'class', 'label-2-6' );
+                        
+                        if( label.innerText === '3' || label.innerText === '7')
+                            label.parentNode.setAttribute( 'class', 'label-3-7' );
+
+                        if( label.innerText === '4' || label.innerText === '8' )
+                            label.parentNode.setAttribute( 'class', 'label-4-8' );
                     }
                 }
             }
         }
     }
+
 
     static unhideMinesAnimation( _mineGrid = new MineGrid() ) {
         const explosionSound = document.getElementById('explosion-sfx');
@@ -118,6 +115,7 @@ export default class UI {
     }
 
     static WinAnimation( _mineGrid ) {
+
         let animation;
         let count = 0;
         const blocks = [];
@@ -201,4 +199,5 @@ export default class UI {
     static blockScreen() {
         document.getElementById( "black-screen" ).classList.remove('d-none');
     }
+
 }

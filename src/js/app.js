@@ -1,8 +1,10 @@
 import MineGrid from "./mine-grid.js";
 import UI from "./ui.js";
+import { Clock } from "./clock.js";
 
 document.addEventListener( 'DOMContentLoaded', () => {
 
+    const clock = new Clock(9, 59);
     // Load settings from local storage
     const settings = {
         rows:   parseInt( localStorage.getItem('rows') ),
@@ -93,6 +95,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
                     g.grid[ coordinates[0] + 1 ][ coordinates[1] + 1 ].flag = true;
                     g.flags--;
                 }
+
+                UI.updateGrid( g );
             }
 
             // Left Click unhide the block
